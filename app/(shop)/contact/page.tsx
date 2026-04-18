@@ -63,14 +63,217 @@ export default function ContactPage() {
 
   return (
     <>
+      <style>{`
+        .hero-contact {
+          background: linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%);
+          position: relative;
+          overflow: hidden;
+        }
+        .hero-contact::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+          pointer-events: none;
+        }
+        .hero-contact-content {
+          position: relative;
+          z-index: 1;
+        }
+        .contact-card {
+          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          border: 1px solid rgba(159, 82, 58, 0.1) !important;
+          border-radius: 12px;
+          padding: 1.5rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          height: 100%;
+        }
+        .contact-card:hover {
+          box-shadow: 0 8px 24px rgba(159, 82, 58, 0.15) !important;
+          border-color: rgba(159, 82, 58, 0.2) !important;
+          transform: translateY(-4px);
+        }
+        .contact-icon {
+          color: #9f523a;
+          font-size: 2rem;
+          margin-bottom: 1rem;
+          display: block;
+        }
+        .contact-card h6 {
+          color: #1a1a1a;
+          font-weight: 700;
+          margin-bottom: 0.75rem;
+        }
+        .contact-card p {
+          color: #666;
+          font-size: 0.9rem;
+          line-height: 1.6;
+        }
+        .form-card {
+          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          border: 1px solid rgba(159, 82, 58, 0.1) !important;
+          border-radius: 12px;
+          padding: 2.5rem;
+          box-shadow: 0 4px 16px rgba(159, 82, 58, 0.08);
+          animation: slideInUp 0.6s ease-out;
+        }
+        @keyframes slideInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .form-card h2 {
+          color: #1a1a1a;
+          font-weight: 800;
+          margin-bottom: 0.5rem;
+          font-size: 1.8rem;
+        }
+        .form-card > p {
+          color: #666;
+          font-size: 0.95rem;
+        }
+        .form-label {
+          color: #1a1a1a;
+          font-weight: 700;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 0.5rem;
+        }
+        .form-control, .form-select {
+          border: 1px solid rgba(159, 82, 58, 0.2) !important;
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          background: white;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: #333;
+          font-size: 0.95rem;
+        }
+        .form-control:focus, .form-select:focus {
+          border-color: #9f523a !important;
+          box-shadow: 0 0 0 3px rgba(159, 82, 58, 0.1) !important;
+          color: #333;
+        }
+        .form-control::placeholder {
+          color: #999;
+        }
+        .input-group-text {
+          background: white;
+          border: 1px solid rgba(159, 82, 58, 0.2) !important;
+          color: #666 !important;
+          font-weight: 600;
+        }
+        .btn-submit {
+          background: linear-gradient(135deg, #9f523a, #7a3f2c);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          width: 100%;
+        }
+        .btn-submit:hover:not(:disabled) {
+          box-shadow: 0 8px 24px rgba(159, 82, 58, 0.4);
+          transform: translateY(-2px);
+        }
+        .btn-submit:disabled {
+          opacity: 0.7;
+        }
+        .alert-success {
+          background: rgba(32, 201, 151, 0.1) !important;
+          border: 1px solid rgba(32, 201, 151, 0.3) !important;
+          border-left: 4px solid #20c997 !important;
+          color: #155724 !important;
+        }
+        .alert-danger {
+          background: rgba(220, 53, 69, 0.1) !important;
+          border: 1px solid rgba(220, 53, 69, 0.3) !important;
+          border-left: 4px solid #dc3545 !important;
+          color: #721c24 !important;
+        }
+        .social-buttons {
+          display: flex;
+          gap: 12px;
+        }
+        .social-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 8px;
+          border: 2px solid rgba(159, 82, 58, 0.2);
+          background: white;
+          color: #9f523a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          text-decoration: none;
+          font-size: 1.1rem;
+        }
+        .social-btn:hover {
+          border-color: #9f523a;
+          background: #9f523a;
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(159, 82, 58, 0.2);
+        }
+        .map-container {
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 16px rgba(159, 82, 58, 0.1);
+          border: 1px solid rgba(159, 82, 58, 0.1);
+        }
+        .security-notice {
+          background: rgba(32, 201, 151, 0.05);
+          border: 1px solid rgba(32, 201, 151, 0.2);
+          border-left: 4px solid #20c997;
+          padding: 1rem;
+          border-radius: 8px;
+          color: #155724;
+          font-size: 0.9rem;
+          margin-top: 1.5rem;
+        }
+        .security-notice i {
+          color: #20c997;
+        }
+        .follow-section h6 {
+          color: #1a1a1a;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          position: relative;
+          padding-bottom: 0.75rem;
+        }
+        .follow-section h6::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 25px;
+          height: 2px;
+          background: #9f523a;
+          border-radius: 1px;
+        }
+      `}</style>
+
       {/* Hero */}
-      <div
-        className="py-5 text-white text-center"
-        style={{ background: "linear-gradient(135deg,#e91e63 0%,#9c27b0 100%)" }}
-      >
-        <div className="container">
-          <h1 className="fw-bold display-5 mb-2">Contact Us</h1>
-          <p className="lead mb-0 opacity-75">We'd love to hear from you. Let us know how we can help.</p>
+      <div className="hero-contact py-5 text-white">
+        <div className="container hero-contact-content">
+          <h1 className="fw-bold" style={{ fontSize: "2.5rem", marginBottom: "1rem", letterSpacing: "-0.5px" }}>
+            Contact Us
+          </h1>
+          <p className="lead" style={{ fontSize: "1.1rem", opacity: 0.9, marginBottom: 0, maxWidth: "600px" }}>
+            We'd love to hear from you. Let us know how we can help.
+          </p>
         </div>
       </div>
 
@@ -84,11 +287,11 @@ export default function ContactPage() {
             <div className="row g-3 mb-4">
               {CONTACT_DETAILS.map((d) => (
                 <div key={d.title} className="col-6">
-                  <div className="card border-0 shadow-sm h-100 p-3">
-                    <i className={`bi ${d.icon} fs-3 text-primary mb-2`} />
-                    <h6 className="fw-bold mb-1">{d.title}</h6>
+                  <div className="contact-card">
+                    <i className={`bi ${d.icon} contact-icon`} />
+                    <h6>{d.title}</h6>
                     {d.lines.map((line) => (
-                      <p key={line} className="text-muted small mb-0">{line}</p>
+                      <p key={line} className="mb-0">{line}</p>
                     ))}
                   </div>
                 </div>
@@ -96,7 +299,7 @@ export default function ContactPage() {
             </div>
 
             {/* Google Maps embed */}
-            <div className="rounded overflow-hidden shadow-sm border" style={{ height: 280 }}>
+            <div className="map-container" style={{ height: 280 }}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.234!2d77.2369!3d28.5665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3b5bef6de13%3A0x7e4c3b0e7e4e3b0e!2sLajpat+Nagar%2C+New+Delhi%2C+Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
@@ -110,20 +313,20 @@ export default function ContactPage() {
             </div>
 
             {/* Social media */}
-            <div className="mt-4">
-              <h6 className="fw-bold mb-3">Follow Us</h6>
-              <div className="d-flex gap-3">
+            <div className="follow-section mt-4">
+              <h6>Follow Us</h6>
+              <div className="social-buttons">
                 {[
-                  { icon: "bi-instagram", label: "Instagram", color: "#e1306c" },
-                  { icon: "bi-facebook", label: "Facebook", color: "#1877f2" },
-                  { icon: "bi-twitter-x", label: "Twitter", color: "#000" },
-                  { icon: "bi-youtube", label: "YouTube", color: "#ff0000" },
-                  { icon: "bi-pinterest", label: "Pinterest", color: "#bd081c" },
+                  { icon: "bi-instagram", label: "Instagram" },
+                  { icon: "bi-facebook", label: "Facebook" },
+                  { icon: "bi-twitter-x", label: "Twitter" },
+                  { icon: "bi-youtube", label: "YouTube" },
+                  { icon: "bi-pinterest", label: "Pinterest" },
                 ].map((s) => (
                   <a
                     key={s.label}
                     href="#"
-                    className="btn btn-outline-secondary btn-sm px-2"
+                    className="social-btn"
                     aria-label={s.label}
                     title={s.label}
                   >
@@ -136,9 +339,9 @@ export default function ContactPage() {
 
           {/* Right: Contact Form */}
           <div className="col-lg-7">
-            <div className="card border-0 shadow-sm rounded-4 p-4 p-md-5">
-              <h2 className="fw-bold mb-1 h4">Send us a Message</h2>
-              <p className="text-muted small mb-4">Fill out the form and our team will get back to you within 24 hours.</p>
+            <div className="form-card">
+              <h2>Send us a Message</h2>
+              <p className="mb-4">Fill out the form and our team will get back to you within 24 hours.</p>
 
               {status === "success" && (
                 <div className="alert alert-success d-flex align-items-center gap-2 mb-4">
@@ -150,7 +353,7 @@ export default function ContactPage() {
                 </div>
               )}
               {status === "error" && (
-                <div className="alert alert-danger small mb-4">
+                <div className="alert alert-danger mb-4">
                   <i className="bi bi-exclamation-circle me-2" />{responseMsg}
                 </div>
               )}
@@ -158,7 +361,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <label className="form-label small fw-semibold">Full Name *</label>
+                    <label className="form-label">Full Name *</label>
                     <input
                       className="form-control"
                       placeholder="Your name"
@@ -168,7 +371,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label small fw-semibold">Email Address *</label>
+                    <label className="form-label">Email Address *</label>
                     <input
                       type="email"
                       className="form-control"
@@ -179,9 +382,9 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label small fw-semibold">Phone Number</label>
+                    <label className="form-label">Phone Number</label>
                     <div className="input-group">
-                      <span className="input-group-text text-muted small">+91</span>
+                      <span className="input-group-text">+91</span>
                       <input
                         type="tel"
                         className="form-control"
@@ -193,7 +396,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label small fw-semibold">Subject</label>
+                    <label className="form-label">Subject</label>
                     <select
                       className="form-select"
                       value={form.subject}
@@ -209,7 +412,7 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div className="col-12">
-                    <label className="form-label small fw-semibold">Message *</label>
+                    <label className="form-label">Message *</label>
                     <textarea
                       className="form-control"
                       rows={5}
@@ -222,11 +425,11 @@ export default function ContactPage() {
                   <div className="col-12">
                     <button
                       type="submit"
-                      className="btn btn-primary btn-lg w-100"
+                      className="btn-submit"
                       disabled={status === "loading"}
                     >
                       {status === "loading" ? (
-                        <><span className="spinner-border spinner-border-sm me-2" />Sending...</>
+                        <><span className="spinner-border spinner-border-sm me-2" style={{ borderWidth: "2px" }} />Sending...</>
                       ) : (
                         <><i className="bi bi-send me-2" />Send Message</>
                       )}
@@ -235,11 +438,9 @@ export default function ContactPage() {
                 </div>
               </form>
 
-              <div className="mt-4 pt-3 border-top">
-                <p className="text-muted small mb-0 text-center">
-                  <i className="bi bi-shield-check text-success me-1" />
-                  Your details are safe with us. We never share your data with third parties.
-                </p>
+              <div className="security-notice">
+                <i className="bi bi-shield-check me-2" />
+                Your details are safe with us. We never share your data with third parties.
               </div>
             </div>
           </div>

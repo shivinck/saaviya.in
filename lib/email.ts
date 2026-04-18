@@ -18,7 +18,7 @@ interface EmailOptions {
 
 export async function sendEmail({ to, subject, html }: EmailOptions) {
   const info = await transporter.sendMail({
-    from: `"dstore.in" <${process.env.EMAIL_FROM || "noreply@dstore.in"}>`,
+    from: `"Saaviya" <${process.env.EMAIL_FROM || "noreply@saaviya.in"}>`,
     to,
     subject,
     html,
@@ -36,7 +36,7 @@ export function verificationEmailTemplate(name: string, token: string) {
       </div>
       <h2 style="color:#333;">Hi ${name},</h2>
       <p style="color:#555;line-height:1.6;">
-        Thank you for registering with dstore.in! Please verify your email address to get started.
+        Thank you for registering with Saaviya! Please verify your email address to get started.
       </p>
       <div style="text-align:center;margin:30px 0;">
         <a href="${url}" 
@@ -57,7 +57,7 @@ export function orderConfirmationTemplate(
   return `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
       <div style="text-align:center;margin-bottom:30px;">
-        <h1 style="color:#9f523a;font-size:28px;margin:0;">dstore.in</h1>
+        <h1 style="color:#9f523a;font-size:28px;margin:0;">Saaviya</h1>
       </div>
       <h2 style="color:#333;">Order Received!</h2>
       <p style="color:#555;">Hi ${name}, your order <strong>#${orderNumber}</strong> has been received.</p>

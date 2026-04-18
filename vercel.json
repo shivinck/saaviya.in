@@ -1,0 +1,60 @@
+{
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
+    }
+  },
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL with connection pooling",
+      "required": true
+    },
+    "JWT_SECRET": {
+      "description": "Secret key for JWT token signing",
+      "required": true
+    },
+    "SMTP_HOST": {
+      "description": "SMTP server host for email",
+      "required": true
+    },
+    "SMTP_PORT": {
+      "description": "SMTP server port",
+      "required": true
+    },
+    "SMTP_USER": {
+      "description": "SMTP authentication user",
+      "required": true
+    },
+    "SMTP_PASSWORD": {
+      "description": "SMTP authentication password",
+      "required": true
+    },
+    "ADMIN_EMAIL": {
+      "description": "Admin email address",
+      "required": true
+    },
+    "NEXT_PUBLIC_API_URL": {
+      "description": "Public API URL (e.g., https://yourdomain.com)",
+      "required": false
+    }
+  },
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/admin/dashboard",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ]
+}

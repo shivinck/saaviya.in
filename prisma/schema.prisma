@@ -1,4 +1,4 @@
-// dstore.in - Prisma Schema
+// Saaviya - Prisma Schema
 
 generator client {
   provider = "prisma-client-js"

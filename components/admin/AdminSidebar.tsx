@@ -26,7 +26,7 @@ export default function AdminSidebar() {
     <div className="admin-sidebar d-flex flex-column" style={{ minWidth: 240 }}>
       {/* Brand */}
       <div className="px-4 py-4 border-bottom border-secondary">
-        <h5 className="fw-bold text-white mb-0">dstore.in</h5>
+        <h5 className="fw-bold text-white mb-0">Saaviya</h5>
         <p className="text-secondary small mb-0">Admin Panel</p>
       </div>
 

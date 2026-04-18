@@ -127,288 +127,711 @@ export default function CheckoutPage() {
 
   if (step === 3) {
     return (
-      <div className="container py-5 text-center">
-        <div className="d-flex justify-content-center mb-4">
-          <div
-            className="rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: 80, height: 80, background: "#d4edda" }}
-          >
-            <i className="bi bi-check2 text-success fs-1" />
+      <div style={{ background: "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+        <div className="container">
+          <div style={{ maxWidth: "500px", margin: "0 auto", background: "white", borderRadius: "16px", padding: "60px 40px", textAlign: "center", boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
+              <div
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #20c997 0%, #17a2b8 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  animation: "scaleIn 0.6s ease-out",
+                  boxShadow: "0 10px 30px rgba(32, 201, 151, 0.3)"
+                }}
+              >
+                <i className="bi bi-check2" style={{ fontSize: "2.5rem", color: "white", fontWeight: "bold" }} />
+              </div>
+            </div>
+            
+            <h2 style={{ color: "#9f523a", fontSize: "2rem", fontWeight: "700", marginBottom: "15px" }}>
+              Order Placed!
+            </h2>
+            
+            <p style={{ color: "#666", fontSize: "1rem", lineHeight: "1.6", marginBottom: "10px" }}>
+              Your order <strong style={{ color: "#9f523a" }}>#{orderNumber}</strong> has been successfully created.
+            </p>
+            
+            <div style={{ background: "#f8f9fa", padding: "20px", borderRadius: "10px", margin: "25px 0", border: "1px solid rgba(159, 82, 58, 0.1)" }}>
+              <p style={{ color: "#555", marginBottom: "5px" }}>Order Status</p>
+              <p style={{ color: "#9f523a", fontSize: "1.1rem", fontWeight: "600" }}>Pending Payment Verification</p>
+              <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "0" }}>We'll notify you once payment is verified</p>
+            </div>
+
+            <div style={{ display: "flex", gap: "15px", marginTop: "35px", flexDirection: "column" }}>
+              <Link
+                href="/account/orders"
+                style={{
+                  display: "inline-block",
+                  background: "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)",
+                  color: "white",
+                  padding: "12px 30px",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  fontWeight: "600",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 20px rgba(159, 82, 58, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                }}
+              >
+                <i className="bi bi-bag-check me-2" />View Your Orders
+              </Link>
+              <Link
+                href="/"
+                style={{
+                  display: "inline-block",
+                  background: "transparent",
+                  color: "#9f523a",
+                  padding: "12px 30px",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  fontWeight: "600",
+                  border: "2px solid #9f523a",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = "rgba(159, 82, 58, 0.05)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                }}
+              >
+                <i className="bi bi-arrow-left me-2" />Continue Shopping
+              </Link>
+            </div>
           </div>
         </div>
-        <h2 className="fw-bold">Order Placed!</h2>
-        <p className="text-muted">Order <strong>#{orderNumber}</strong> is pending payment verification.</p>
-        <p className="text-muted">We'll notify you once your payment is verified.</p>
-        <div className="d-flex gap-3 justify-content-center mt-4">
-          <Link href="/account/orders" className="btn btn-primary px-4">View Orders</Link>
-          <Link href="/" className="btn btn-outline-secondary px-4">Continue Shopping</Link>
-        </div>
+        <style>{`
+          @keyframes scaleIn {
+            from {
+              transform: scale(0);
+              opacity: 0;
+            }
+            to {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+        `}</style>
       </div>
     );
   }
 
   return (
-    <div className="container py-4 py-md-5">
-      <h1 className="h3 fw-bold mb-4">Checkout</h1>
+    <div style={{ background: "#fafafa", minHeight: "100vh", paddingTop: "40px", paddingBottom: "60px" }}>
+      <div className="container">
+        {/* Header */}
+        <div style={{ marginBottom: "40px" }}>
+          <h1 style={{ color: "#9f523a", fontSize: "2.5rem", fontWeight: "700", marginBottom: "10px" }}>Checkout</h1>
+          <p style={{ color: "#999", fontSize: "1rem", marginBottom: "0" }}>Complete your purchase securely</p>
+        </div>
 
-      {/* Steps */}
-      <div className="d-flex align-items-center mb-5 gap-2">
-        {[
-          { n: 1, label: "Address" },
-          { n: 2, label: "Payment" },
-        ].map(({ n, label }, idx) => (
-          <div key={n} className="d-flex align-items-center gap-2">
-            <div
-              className={`rounded-circle d-flex align-items-center justify-content-center fw-bold`}
-              style={{
-                width: 36,
-                height: 36,
-                background: step >= n ? "var(--primary)" : "#dee2e6",
-                color: step >= n ? "white" : "#666",
-              }}
-            >
-              {n}
+        {/* Progress Steps */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "40px",
+          gap: "12px",
+          background: "white",
+          padding: "25px",
+          borderRadius: "12px",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)"
+        }}>
+          {[
+            { n: 1, label: "Address", icon: "geo-alt" },
+            { n: 2, label: "Payment", icon: "credit-card" },
+          ].map(({ n, label, icon }, idx) => (
+            <div key={n} style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
+              <div
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: "50%",
+                  background: step >= n ? "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)" : "#e9ecef",
+                  color: step >= n ? "white" : "#999",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "700",
+                  fontSize: "1.1rem",
+                  flexShrink: 0,
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                  boxShadow: step >= n ? "0 4px 12px rgba(159, 82, 58, 0.3)" : "none"
+                }}
+                onClick={() => n < step && setStep(n as 1 | 2)}
+                title={label}
+              >
+                <i className={`bi bi-${icon}`} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ fontSize: "0.85rem", color: "#999" }}>Step {n}</span>
+                <span style={{ fontWeight: "600", color: step >= n ? "#9f523a" : "#999" }}>{label}</span>
+              </div>
+              {idx < 1 && (
+                <div style={{
+                  flex: 1,
+                  height: "2px",
+                  background: step > n ? "linear-gradient(90deg, #9f523a, #7a3f2c)" : "#e9ecef",
+                  transition: "all 0.3s ease",
+                  minWidth: "30px"
+                }} />
+              )}
             </div>
-            <span className={`small fw-semibold ${step >= n ? "text-primary" : "text-muted"}`}>
-              {label}
-            </span>
-            {idx < 1 && <div className="flex-grow-1 border-top mx-2" style={{ minWidth: 40 }} />}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className="row g-4">
-        {/* Left - Steps */}
-        <div className="col-lg-7">
-          {/* Step 1: Address */}
-          {step === 1 && (
-            <div className="card border-0 shadow-sm">
-              <div className="card-body">
-                <h5 className="fw-bold mb-4">
-                  <i className="bi bi-geo-alt me-2 text-primary" />
-                  Delivery Address
-                </h5>
+        <div className="row g-4">
+          {/* Main Content */}
+          <div className="col-lg-7">{step === 1 && (
+            <div style={{
+              background: "white",
+              borderRadius: "12px",
+              padding: "40px",
+              boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+              border: "1px solid rgba(159, 82, 58, 0.1)",
+              animation: "slideIn 0.4s ease-out"
+            }}>
+              <h2 style={{ color: "#333", fontSize: "1.5rem", fontWeight: "700", marginBottom: "5px" }}>
+                <i className="bi bi-geo-alt me-2" style={{ color: "#9f523a" }} />
+                Delivery Address
+              </h2>
+              <p style={{ color: "#999", marginBottom: "25px" }}>Select where we should deliver your order</p>
 
-                {addresses.length === 0 ? (
-                  <div className="text-center py-4">
-                    <p className="text-muted">No addresses saved.</p>
-                    <Link href="/account/addresses" className="btn btn-outline-primary">
-                      Add Address
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="row g-3">
+              {addresses.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "40px 20px", background: "#f8f9fa", borderRadius: "10px" }}>
+                  <i className="bi bi-inbox" style={{ fontSize: "2.5rem", color: "#ccc", display: "block", marginBottom: "15px" }} />
+                  <p style={{ color: "#999", marginBottom: "20px" }}>No delivery addresses saved yet</p>
+                  <Link
+                    href="/account/addresses?returnTo=/checkout"
+                    style={{
+                      display: "inline-block",
+                      background: "#9f523a",
+                      color: "white",
+                      padding: "10px 25px",
+                      borderRadius: "6px",
+                      textDecoration: "none",
+                      fontWeight: "600",
+                      transition: "all 0.3s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = "#7a3f2c";
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = "#9f523a";
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    }}
+                  >
+                    <i className="bi bi-plus-circle me-2" />Add Address
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <div style={{ display: "grid", gap: "15px", marginBottom: "25px" }}>
                     {addresses.map((address) => (
-                      <div key={address.id} className="col-12">
-                        <div
-                          className={`rounded-3 p-3 cursor-pointer border ${
-                            selectedAddress === address.id
-                              ? "border-primary border-2"
-                              : "border-light"
-                          }`}
-                          style={{ cursor: "pointer", background: selectedAddress === address.id ? "#fff0f4" : "#fff" }}
-                          onClick={() => setSelectedAddress(address.id)}
-                        >
-                          <div className="d-flex justify-content-between">
-                            <div>
-                              <p className="fw-semibold mb-1">{address.name}</p>
-                              <p className="text-muted small mb-0">
-                                {address.line1}
-                                {address.line2 ? `, ${address.line2}` : ""},{" "}
-                                {address.city}, {address.state} – {address.pincode}
-                              </p>
-                              <p className="text-muted small mt-1">📞 {address.phone}</p>
+                      <div
+                        key={address.id}
+                        onClick={() => setSelectedAddress(address.id)}
+                        style={{
+                          padding: "20px",
+                          borderRadius: "10px",
+                          border: selectedAddress === address.id ? "2px solid #9f523a" : "2px solid #e9ecef",
+                          background: selectedAddress === address.id ? "rgba(159, 82, 58, 0.03)" : "white",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          boxShadow: selectedAddress === address.id ? "0 4px 12px rgba(159, 82, 58, 0.15)" : "none"
+                        }}
+                        onMouseEnter={(e) => {
+                          if (selectedAddress !== address.id) {
+                            (e.currentTarget as HTMLElement).style.borderColor = "#9f523a";
+                            (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 8px rgba(159, 82, 58, 0.1)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (selectedAddress !== address.id) {
+                            (e.currentTarget as HTMLElement).style.borderColor = "#e9ecef";
+                            (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                          }
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                              <p style={{ fontWeight: "700", color: "#333", marginBottom: "0", fontSize: "1.05rem" }}>{address.name}</p>
+                              {address.isDefault && (
+                                <span style={{
+                                  background: "#20c997",
+                                  color: "white",
+                                  padding: "3px 10px",
+                                  borderRadius: "4px",
+                                  fontSize: "0.75rem",
+                                  fontWeight: "600"
+                                }}>Default</span>
+                              )}
                             </div>
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                checked={selectedAddress === address.id}
-                                onChange={() => setSelectedAddress(address.id)}
-                              />
-                            </div>
+                            <p style={{ color: "#666", fontSize: "0.95rem", marginBottom: "8px" }}>
+                              <i className="bi bi-geo-alt me-2" style={{ color: "#9f523a" }} />
+                              {address.line1}
+                              {address.line2 ? `, ${address.line2}` : ""}
+                            </p>
+                            <p style={{ color: "#666", fontSize: "0.95rem", marginBottom: "8px" }}>
+                              {address.city}, {address.state} – {address.pincode}
+                            </p>
+                            <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "0" }}>
+                              <i className="bi bi-telephone me-2" />{address.phone}
+                            </p>
                           </div>
-                          {address.isDefault && (
-                            <span className="badge bg-primary mt-1">Default</span>
-                          )}
+                          <div style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            border: selectedAddress === address.id ? "3px solid #9f523a" : "2px solid #ddd",
+                            background: selectedAddress === address.id ? "#9f523a" : "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                            transition: "all 0.3s ease"
+                          }}>
+                            {selectedAddress === address.id && (
+                              <i className="bi bi-check" style={{ color: "white", fontSize: "0.7rem", fontWeight: "bold" }} />
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                )}
 
-                <div className="mt-3 d-flex gap-2">
                   <Link
                     href="/account/addresses?returnTo=/checkout"
-                    className="btn btn-outline-secondary btn-sm"
+                    style={{
+                      display: "inline-block",
+                      color: "#9f523a",
+                      textDecoration: "none",
+                      fontWeight: "600",
+                      fontSize: "0.95rem",
+                      transition: "all 0.3s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.opacity = "0.7";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.opacity = "1";
+                    }}
                   >
-                    <i className="bi bi-plus me-1" />Add New Address
+                    <i className="bi bi-plus-circle me-1" />Add New Address
                   </Link>
-                </div>
+                </>
+              )}
 
-                <button
-                  className="btn btn-primary w-100 mt-4"
-                  disabled={!selectedAddress}
-                  onClick={() => setStep(2)}
-                >
-                  Continue to Payment →
-                </button>
-              </div>
+              <button
+                onClick={() => setStep(2)}
+                disabled={!selectedAddress}
+                style={{
+                  width: "100%",
+                  background: selectedAddress ? "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)" : "#ccc",
+                  color: "white",
+                  border: "none",
+                  padding: "14px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  marginTop: "30px",
+                  cursor: selectedAddress ? "pointer" : "not-allowed",
+                  transition: "all 0.3s ease",
+                  boxShadow: selectedAddress ? "0 4px 12px rgba(159, 82, 58, 0.3)" : "none"
+                }}
+                onMouseEnter={(e) => {
+                  if (selectedAddress) {
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(159, 82, 58, 0.4)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedAddress) {
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(159, 82, 58, 0.3)";
+                  }
+                }}
+              >
+                Continue to Payment <i className="bi bi-arrow-right ms-2" />
+              </button>
             </div>
           )}
 
-          {/* Step 2: Payment */}
           {step === 2 && (
-            <div className="card border-0 shadow-sm">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                  <h5 className="fw-bold mb-0">
-                    <i className="bi bi-credit-card me-2 text-primary" />
-                    Payment
-                  </h5>
-                  <button
-                    className="btn btn-sm btn-link text-muted text-decoration-none"
-                    onClick={() => setStep(1)}
-                  >
-                    ← Change Address
-                  </button>
+            <div style={{
+              background: "white",
+              borderRadius: "12px",
+              padding: "40px",
+              boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+              border: "1px solid rgba(159, 82, 58, 0.1)",
+              animation: "slideIn 0.4s ease-out"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
+                <h2 style={{ color: "#333", fontSize: "1.5rem", fontWeight: "700", marginBottom: "0" }}>
+                  <i className="bi bi-credit-card me-2" style={{ color: "#9f523a" }} />
+                  Payment Details
+                </h2>
+                <button
+                  onClick={() => setStep(1)}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#9f523a",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    textDecoration: "none",
+                    fontSize: "0.95rem",
+                    transition: "all 0.3s ease"
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.opacity = "0.7";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.opacity = "1";
+                  }}
+                >
+                  <i className="bi bi-arrow-left me-1" />Change Address
+                </button>
+              </div>
+
+              {/* UPI QR Section */}
+              <div style={{
+                background: "linear-gradient(135deg, rgba(159, 82, 58, 0.05) 0%, rgba(159, 82, 58, 0.02) 100%)",
+                padding: "35px",
+                borderRadius: "12px",
+                border: "1px solid rgba(159, 82, 58, 0.1)",
+                textAlign: "center",
+                marginBottom: "35px"
+              }}>
+                <p style={{ color: "#666", fontWeight: "700", fontSize: "1.05rem", marginBottom: "20px" }}>
+                  <i className="bi bi-qr-code me-2" style={{ color: "#9f523a" }} />
+                  Scan UPI QR Code to Pay
+                </p>
+
+                <div style={{
+                  width: "220px",
+                  height: "220px",
+                  borderRadius: "12px",
+                  background: "white",
+                  border: "2px solid rgba(159, 82, 58, 0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "0 auto 25px",
+                  boxShadow: "0 4px 12px rgba(159, 82, 58, 0.1)"
+                }}>
+                  <div style={{ textAlign: "center" }}>
+                    <i className="bi bi-qr-code" style={{ fontSize: "3rem", color: "#9f523a", display: "block", marginBottom: "10px" }} />
+                    <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "0" }}>UPI QR</p>
+                  </div>
                 </div>
 
-                {/* UPI QR */}
-                <div className="text-center p-4 rounded-3 bg-light mb-4">
-                  <p className="fw-semibold mb-3">Scan UPI QR Code to Pay</p>
-                  {/* Placeholder QR code */}
-                  <div
-                    className="mx-auto mb-3 rounded d-flex align-items-center justify-content-center bg-white border"
-                    style={{ width: 200, height: 200 }}
-                  >
-                    <div className="text-center">
-                      <i className="bi bi-qr-code fs-1 text-dark" />
-                      <p className="small text-muted mt-1 mb-0">UPI QR Code</p>
+                <p style={{ color: "#666", marginBottom: "15px" }}>
+                  <strong>UPI ID:</strong> <span style={{ fontFamily: "monospace", color: "#9f523a" }}>payments@saaviya.in</span>
+                </p>
+
+                <div style={{
+                  display: "inline-block",
+                  background: "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)",
+                  color: "white",
+                  padding: "12px 30px",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "1.1rem"
+                }}>
+                  Pay ₹{total.toLocaleString("en-IN")}
+                </div>
+              </div>
+
+              {/* Screenshot Upload */}
+              <div style={{ marginBottom: "25px" }}>
+                <label style={{ display: "block", fontWeight: "700", color: "#333", marginBottom: "12px", fontSize: "0.95rem" }}>
+                  Upload Payment Screenshot *
+                </label>
+                <div
+                  onClick={() => screenshotRef.current?.click()}
+                  style={{
+                    border: screenshotPreview ? "2px solid #20c997" : "2px dashed #9f523a",
+                    borderRadius: "12px",
+                    padding: "35px 20px",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    background: screenshotPreview ? "rgba(32, 201, 151, 0.03)" : "rgba(159, 82, 58, 0.02)"
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(159, 82, 58, 0.05)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "#9f523a";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = screenshotPreview ? "rgba(32, 201, 151, 0.03)" : "rgba(159, 82, 58, 0.02)";
+                    (e.currentTarget as HTMLElement).style.borderColor = screenshotPreview ? "#20c997" : "#9f523a";
+                  }}
+                >
+                  {screenshotPreview ? (
+                    <div>
+                      <Image
+                        src={screenshotPreview}
+                        alt="Payment screenshot"
+                        width={200}
+                        height={150}
+                        style={{
+                          borderRadius: "8px",
+                          objectFit: "cover",
+                          maxHeight: "150px",
+                          marginBottom: "12px"
+                        }}
+                      />
+                      <p style={{ color: "#20c997", fontWeight: "600", marginBottom: "0" }}>
+                        <i className="bi bi-check-circle me-2" />
+                        {screenshot?.name}
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <i className="bi bi-cloud-upload" style={{ fontSize: "2.5rem", color: "#9f523a", display: "block", marginBottom: "12px" }} />
+                      <p style={{ color: "#666", fontWeight: "600", marginBottom: "5px" }}>Click to upload payment screenshot</p>
+                      <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "0" }}>PNG, JPG up to 5MB</p>
+                    </div>
+                  )}
+                </div>
+                <input
+                  ref={screenshotRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleScreenshotChange}
+                />
+              </div>
+
+              {error && (
+                <div style={{
+                  background: "#f8d7da",
+                  border: "1px solid #f5c6cb",
+                  color: "#721c24",
+                  padding: "12px 16px",
+                  borderRadius: "6px",
+                  marginBottom: "25px",
+                  fontSize: "0.9rem"
+                }}>
+                  <i className="bi bi-exclamation-triangle me-2" />
+                  {error}
+                </div>
+              )}
+
+              <button
+                onClick={handlePlaceOrder}
+                disabled={placing}
+                style={{
+                  width: "100%",
+                  background: "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)",
+                  color: "white",
+                  border: "none",
+                  padding: "16px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "1.05rem",
+                  cursor: placing ? "not-allowed" : "pointer",
+                  opacity: placing ? 0.7 : 1,
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 12px rgba(159, 82, 58, 0.3)"
+                }}
+                onMouseEnter={(e) => {
+                  if (!placing) {
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(159, 82, 58, 0.4)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!placing) {
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(159, 82, 58, 0.3)";
+                  }
+                }}
+              >
+                {placing ? (
+                  <>
+                    <span style={{ display: "inline-block", marginRight: "8px" }}>
+                      <i className="bi bi-arrow-repeat" style={{ animation: "spin 1s linear infinite" }} />
+                    </span>
+                    Placing Order...
+                  </>
+                ) : (
+                  <>
+                    <i className="bi bi-bag-check me-2" />
+                    Place Order
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => setStep(1)}
+                style={{
+                  width: "100%",
+                  background: "white",
+                  color: "#9f523a",
+                  border: "2px solid #9f523a",
+                  padding: "14px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "0.95rem",
+                  cursor: "pointer",
+                  marginTop: "12px",
+                  transition: "all 0.3s ease"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = "rgba(159, 82, 58, 0.05)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = "white";
+                }}
+              >
+                <i className="bi bi-arrow-left me-2" />Back to Address
+              </button>
+            </div>
+          )}
+          </div>
+
+          {/* Order Summary Sidebar */}
+          <div className="col-lg-5">
+            <div style={{
+              background: "white",
+              borderRadius: "12px",
+              padding: "30px",
+              boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+              border: "1px solid rgba(159, 82, 58, 0.1)",
+              position: "sticky",
+              top: "80px"
+            }}>
+              <h3 style={{ color: "#333", fontWeight: "700", marginBottom: "5px" }}>Order Summary</h3>
+              <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "25px" }}>{cartItems.length} {cartItems.length === 1 ? "item" : "items"}</p>
+
+              {/* Items */}
+              <div style={{ maxHeight: "350px", overflowY: "auto", marginBottom: "20px", paddingRight: "10px" }}>
+                {cartItems.map((item) => (
+                  <div key={item.id} style={{
+                    display: "flex",
+                    gap: "12px",
+                    marginBottom: "15px",
+                    paddingBottom: "15px",
+                    borderBottom: "1px solid #f0f0f0"
+                  }}>
+                    <div
+                      style={{
+                        width: "60px",
+                        height: "75px",
+                        borderRadius: "8px",
+                        overflow: "hidden",
+                        flexShrink: 0,
+                        background: "#f0f0f0",
+                        position: "relative"
+                      }}
+                    >
+                      {item.product.images[0] ? (
+                        <Image
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          fill
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div style={{ width: "100%", height: "100%", background: "#e9ecef" }} />
+                      )}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontWeight: "600", color: "#333", fontSize: "0.9rem", marginBottom: "4px", lineHeight: "1.3" }}>
+                        {item.product.name}
+                      </p>
+                      <p style={{ color: "#999", fontSize: "0.85rem", marginBottom: "6px" }}>
+                        Size: <strong>{item.size}</strong> × {item.quantity}
+                      </p>
+                      <p style={{ color: "#9f523a", fontWeight: "700", fontSize: "0.95rem", marginBottom: "0" }}>
+                        ₹{(Number(item.product.price) * item.quantity).toLocaleString("en-IN")}
+                      </p>
                     </div>
                   </div>
-                  <p className="text-muted small">UPI ID: payments@dstore.in</p>
-                  <div className="badge bg-warning text-dark px-3 py-2 fs-6">
-                    Pay ₹{total.toLocaleString("en-IN")}
-                  </div>
+                ))}
+              </div>
+
+              <div style={{ borderTop: "2px solid #f0f0f0", paddingTop: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", color: "#666", fontSize: "0.95rem" }}>
+                  <span>Subtotal</span>
+                  <span>₹{subtotal.toLocaleString("en-IN")}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "15px", color: "#666", fontSize: "0.95rem" }}>
+                  <span>Shipping</span>
+                  <span style={{ color: shipping === 0 ? "#20c997" : "#333", fontWeight: shipping === 0 ? "600" : "400" }}>
+                    {shipping === 0 ? "FREE" : `₹${shipping}`}
+                  </span>
                 </div>
 
-                {/* Screenshot Upload */}
-                <div className="mb-4">
-                  <label className="form-label fw-semibold">
-                    Upload Payment Screenshot *
-                  </label>
-                  <div
-                    className="border rounded-3 p-4 text-center"
-                    style={{ borderStyle: "dashed !important", cursor: "pointer" }}
-                    onClick={() => screenshotRef.current?.click()}
-                  >
-                    {screenshotPreview ? (
-                      <div>
-                        <Image
-                          src={screenshotPreview}
-                          alt="Payment screenshot"
-                          width={200}
-                          height={150}
-                          className="rounded mb-2"
-                          style={{ objectFit: "cover", maxHeight: 150 }}
-                        />
-                        <p className="small text-success mb-0">
-                          <i className="bi bi-check2-circle me-1" />
-                          {screenshot?.name}
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <i className="bi bi-cloud-upload fs-1 text-muted" />
-                        <p className="text-muted mt-2 mb-0 small">
-                          Click to upload payment screenshot
-                        </p>
-                        <p className="text-muted small">PNG, JPG up to 5MB</p>
-                      </div>
-                    )}
-                  </div>
-                  <input
-                    ref={screenshotRef}
-                    type="file"
-                    accept="image/*"
-                    className="d-none"
-                    onChange={handleScreenshotChange}
-                  />
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  background: "linear-gradient(135deg, rgba(159, 82, 58, 0.08) 0%, rgba(159, 82, 58, 0.03) 100%)",
+                  padding: "12px 15px",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "1.1rem",
+                  color: "#9f523a"
+                }}>
+                  <span>Total Amount</span>
+                  <span>₹{total.toLocaleString("en-IN")}</span>
                 </div>
-
-                {error && (
-                  <div className="alert alert-danger small py-2">{error}</div>
-                )}
-
-                <button
-                  className="btn btn-primary w-100 btn-lg"
-                  onClick={handlePlaceOrder}
-                  disabled={placing}
-                >
-                  {placing ? (
-                    <><span className="spinner-border spinner-border-sm me-2" />Placing Order...</>
-                  ) : (
-                    <><i className="bi bi-bag-check me-2" />Place Order</>
-                  )}
-                </button>
               </div>
-            </div>
-          )}
-        </div>
 
-        {/* Right - Order Summary */}
-        <div className="col-lg-5">
-          <div className="card border-0 shadow-sm">
-            <div className="card-body">
-              <h6 className="fw-bold mb-3">Order Summary ({cartItems.length} items)</h6>
-
-              {cartItems.map((item) => (
-                <div key={item.id} className="d-flex gap-3 mb-3">
-                  <div
-                    className="rounded overflow-hidden flex-shrink-0"
-                    style={{ width: 56, height: 72, position: "relative" }}
-                  >
-                    {item.product.images[0] ? (
-                      <Image
-                        src={item.product.images[0]}
-                        alt={item.product.name}
-                        fill
-                        className="object-fit-cover"
-                      />
-                    ) : (
-                      <div className="w-100 h-100 bg-light" />
-                    )}
-                  </div>
-                  <div className="flex-grow-1">
-                    <p className="small fw-semibold mb-0 text-truncate">{item.product.name}</p>
-                    <p className="text-muted small mb-0">Size: {item.size} × {item.quantity}</p>
-                    <p className="text-primary small fw-bold mb-0">
-                      ₹{(Number(item.product.price) * item.quantity).toLocaleString("en-IN")}
-                    </p>
-                  </div>
-                </div>
-              ))}
-
-              <hr />
-              <div className="d-flex justify-content-between small mb-1">
-                <span className="text-muted">Subtotal</span>
-                <span>₹{subtotal.toLocaleString("en-IN")}</span>
-              </div>
-              <div className="d-flex justify-content-between small mb-2">
-                <span className="text-muted">Shipping</span>
-                <span className={shipping === 0 ? "text-success" : ""}>
-                  {shipping === 0 ? "FREE" : `₹${shipping}`}
-                </span>
-              </div>
-              <div className="d-flex justify-content-between fw-bold">
-                <span>Total</span>
-                <span className="text-primary">₹{total.toLocaleString("en-IN")}</span>
+              {/* Info Banner */}
+              <div style={{
+                background: "rgba(32, 201, 151, 0.08)",
+                border: "1px solid rgba(32, 201, 151, 0.2)",
+                padding: "12px 15px",
+                borderRadius: "8px",
+                marginTop: "20px",
+                fontSize: "0.85rem",
+                color: "#1a7a5a"
+              }}>
+                <i className="bi bi-shield-check me-2" style={{ color: "#20c997" }} />
+                <strong>Secure Payment</strong> - Your payment information is encrypted
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }

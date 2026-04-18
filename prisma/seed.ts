@@ -26,11 +26,11 @@ async function main() {
   // Admin user
   const adminPassword = await bcrypt.hash("Admin@123", 10);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@dstore.in" },
+    where: { email: "admin@saaviya.in" },
     update: {},
     create: {
       name: "Admin",
-      email: "admin@dstore.in",
+      email: "admin@saaviya.in",
       password: adminPassword,
       role: Role.ADMIN,
       isVerified: true,
@@ -369,13 +369,13 @@ async function main() {
     { name: "Priya Sharma", location: "Mumbai, Maharashtra", rating: 5, avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face", review: "Absolutely love the quality! The fabric of the kurta is so soft and the embroidery is beautiful. Will definitely order again.", sortOrder: 1 },
     { name: "Ananya Krishnan", location: "Bengaluru, Karnataka", rating: 5, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop&crop=face", review: "Ordered a saree for my cousin's wedding — it arrived well-packaged and looked even better in person. Got so many compliments!", sortOrder: 2 },
     { name: "Meera Joshi", location: "Pune, Maharashtra", rating: 4, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face", review: "Great selection of ethnic wear. The delivery was fast and the sizing was accurate. Slight delay in customer support response but overall a great experience.", sortOrder: 3 },
-    { name: "Deepika Nair", location: "Kochi, Kerala", rating: 5, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face", review: "The lehenga I ordered was stunning! The colors were exactly as shown. dstore.in has become my go-to for ethnic fashion online.", sortOrder: 4 },
+    { name: "Deepika Nair", location: "Kochi, Kerala", rating: 5, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face", review: "The lehenga I ordered was stunning! The colors were exactly as shown. Saaviya has become my go-to for ethnic fashion online.", sortOrder: 4 },
     { name: "Ritu Agarwal", location: "Jaipur, Rajasthan", rating: 5, avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face", review: "Super happy with my purchase! The salwar set is gorgeous and stitching quality is top-notch. Highly recommend this store.", sortOrder: 5 },
     { name: "Sneha Patel", location: "Ahmedabad, Gujarat", rating: 4, avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=150&h=150&fit=crop&crop=face", review: "Nice variety of traditional outfits at very reasonable prices. The material is good quality. Will be shopping here for all festive occasions.", sortOrder: 6 },
     { name: "Kavya Reddy", location: "Hyderabad, Telangana", rating: 5, avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face", review: "The kurti I received is exactly what was shown in the picture. The packaging was neat and the delivery was super quick. Loved the experience!", sortOrder: 7 },
     { name: "Tanvi Desai", location: "Surat, Gujarat", rating: 5, avatar: "https://images.unsplash.com/photo-1502767089025-6572583495f9?w=150&h=150&fit=crop&crop=face", review: "Purchased anarkali suit for Navratri and everyone was asking where I bought it! The zari work is so intricate. Very happy customer here.", sortOrder: 8 },
     { name: "Pooja Verma", location: "Delhi, NCR", rating: 4, avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face", review: "Great range of indo-western outfits. The crop top with palazzo combo was perfect for my office party. Received many compliments!", sortOrder: 9 },
-    { name: "Ishita Bose", location: "Kolkata, West Bengal", rating: 5, avatar: "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=150&h=150&fit=crop&crop=face", review: "My first order from dstore.in and I'm already a loyal customer! The cotton saree is so comfortable and the print is vibrant and beautiful.", sortOrder: 10 },
+    { name: "Ishita Bose", location: "Kolkata, West Bengal", rating: 5, avatar: "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=150&h=150&fit=crop&crop=face", review: "My first order from Saaviya and I'm already a loyal customer! The cotton saree is so comfortable and the print is vibrant and beautiful.", sortOrder: 10 },
   ];
   for (const t of testimonialData) {
     await prisma.testimonial.create({ data: { ...t, isActive: true } });
@@ -383,7 +383,7 @@ async function main() {
   console.log("✅ Testimonials seeded:", testimonialData.length);
 
   console.log("\n🎉 Seeding complete!");
-  console.log("Admin login: admin@dstore.in / Admin@123");
+  console.log("Admin login: admin@saaviya.in / Admin@123");
 }
 
 main()

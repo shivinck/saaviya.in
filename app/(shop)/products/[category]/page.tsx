@@ -41,8 +41,30 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <div className="col-6 col-md-4 col-lg-3">
       <Link href={`/product/${product.slug}`} className="text-decoration-none text-dark">
-        <div className="product-card card h-100">
-          <div className="product-img-wrap">
+        <div className="product-card card h-100" style={{
+          background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
+          border: "1px solid rgba(159, 82, 58, 0.1)",
+          borderRadius: "12px",
+          overflow: "hidden",
+          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: "0 2px 8px rgba(159, 82, 58, 0.08)"
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = "0 12px 32px rgba(159, 82, 58, 0.2)";
+          e.currentTarget.style.transform = "translateY(-4px)";
+          e.currentTarget.style.borderColor = "rgba(159, 82, 58, 0.2)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = "0 2px 8px rgba(159, 82, 58, 0.08)";
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.borderColor = "rgba(159, 82, 58, 0.1)";
+        }}>
+          <div className="product-img-wrap" style={{
+            position: "relative",
+            height: "300px",
+            overflow: "hidden",
+            borderRadius: "12px 12px 0 0"
+          }}>
             {product.images[0] ? (
               <Image
                 src={product.images[0]}
@@ -50,29 +72,69 @@ function ProductCard({ product }: { product: Product }) {
                 fill
                 sizes="(max-width:768px) 50vw, 25vw"
                 className="object-fit-cover"
+                style={{
+                  transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLImageElement).style.transform = "scale(1.08)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLImageElement).style.transform = "scale(1)";
+                }}
               />
             ) : (
-              <div className="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
-                <i className="bi bi-image text-muted fs-1" />
+              <div className="w-100 h-100 d-flex align-items-center justify-content-center" style={{
+                background: "linear-gradient(135deg, #9f523a 0%, #7a3f2c 100%)"
+              }}>
+                <i className="bi bi-image text-white fs-1" />
               </div>
             )}
             {discount && (
-              <span className="badge-offer position-absolute top-0 start-0 m-2">
+              <span style={{
+                position: "absolute",
+                top: "12px",
+                left: "12px",
+                background: "linear-gradient(135deg, #9f523a, #7a3f2c)",
+                color: "white",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontWeight: 700,
+                fontSize: "0.85rem"
+              }}>
                 -{discount}%
               </span>
             )}
           </div>
-          <div className="card-body p-2">
-            <p className="mb-1 small fw-semibold text-truncate">{product.name}</p>
-            <div className="d-flex align-items-center gap-2">
-              <span className="fw-bold text-primary">
-                ₹{Number(product.price).toLocaleString("en-IN")}
-              </span>
-              {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
-                <s className="text-muted small">
-                  ₹{Number(product.comparePrice).toLocaleString("en-IN")}
-                </s>
-              )}
+          <div className="card-body p-3" style={{ display: "flex", flexDirection: "column" }}>
+            <p className="mb-2" style={{
+              fontSize: "0.95rem",
+              fontWeight: 700,
+              color: "#1a1a1a",
+              lineHeight: "1.3",
+              minHeight: "2.6rem",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden"
+            }}>{product.name}</p>
+            <div style={{ marginTop: "auto" }}>
+              <div className="d-flex align-items-center gap-2">
+                <span style={{
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
+                  color: "#9f523a"
+                }}>
+                  ₹{Number(product.price).toLocaleString("en-IN")}
+                </span>
+                {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
+                  <s style={{
+                    color: "#999",
+                    fontSize: "0.9rem"
+                  }}>
+                    ₹{Number(product.comparePrice).toLocaleString("en-IN")}
+                  </s>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -138,31 +200,146 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="container py-4">
+    <div className="container py-5">
+      <style>{`
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-10px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        .sidebar-card {
+          animation: slideInLeft 0.5s ease-out;
+          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          border: 1px solid rgba(159, 82, 58, 0.1) !important;
+          box-shadow: 0 2px 12px rgba(159, 82, 58, 0.08) !important;
+          border-radius: 10px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-card:hover {
+          box-shadow: 0 6px 20px rgba(159, 82, 58, 0.12) !important;
+          border-color: rgba(159, 82, 58, 0.2) !important;
+        }
+        .sidebar-title {
+          position: relative;
+          padding-bottom: 12px;
+          margin-bottom: 20px;
+          font-size: 0.95rem;
+          font-weight: 700;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+          color: #9f523a;
+        }
+        .sidebar-title::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 35px;
+          height: 3px;
+          background: linear-gradient(90deg, #9f523a, transparent);
+          border-radius: 2px;
+        }
+        .category-link {
+          position: relative;
+          display: block;
+          padding: 10px 0;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: #555;
+          text-decoration: none !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border-left: 3px solid transparent;
+          padding-left: 12px;
+          margin-left: -12px;
+        }
+        .category-link::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 0;
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .category-link:hover {
+          color: #9f523a;
+          border-left-color: #9f523a;
+          transform: translateX(4px);
+        }
+        .category-link.active {
+          color: #9f523a;
+          font-weight: 700;
+          border-left-color: #9f523a;
+          background: linear-gradient(90deg, rgba(159, 82, 58, 0.05), transparent);
+        }
+        .category-link.active::before {
+          content: '';
+          opacity: 0;
+        }
+        .page-link {
+          color: #9f523a !important;
+          border-color: rgba(159, 82, 58, 0.2) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .page-link:hover {
+          background: #9f523a !important;
+          color: white !important;
+          border-color: #9f523a !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(159, 82, 58, 0.2);
+        }
+        .page-item.active .page-link {
+          background: linear-gradient(135deg, #9f523a, #7a3f2c) !important;
+          color: white !important;
+          border-color: #9f523a !important;
+          box-shadow: 0 4px 12px rgba(159, 82, 58, 0.3);
+        }
+        .form-select {
+          color: #9f523a !important;
+          border-color: rgba(159, 82, 58, 0.2) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .form-select:focus {
+          border-color: #9f523a !important;
+          box-shadow: 0 0 0 0.2rem rgba(159, 82, 58, 0.25) !important;
+        }
+        .form-select:hover {
+          border-color: #9f523a !important;
+        }
+        .page-title {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #1a1a1a;
+          letter-spacing: -0.5px;
+          margin-bottom: 0.5rem;
+        }
+        .page-count {
+          color: #9f523a;
+          font-weight: 600;
+        }
+      `}</style>
+
       <div className="row g-4">
         {/* Sidebar */}
         <div className="col-lg-2">
-          <div className="card border-0 shadow-sm">
-            <div className="card-body">
-              <h6 className="fw-bold mb-3">Categories</h6>
+          <div className="card border-0 sidebar-card">
+            <div className="card-body p-4">
+              <h6 className="sidebar-title">Categories</h6>
               <ul className="list-unstyled mb-0">
-                <li className="mb-1">
+                <li>
                   <Link
                     href="/products/all"
-                    className={`text-decoration-none small ${
-                      categorySlug === "all" ? "text-primary fw-bold" : "text-dark"
-                    }`}
+                    className={`category-link ${categorySlug === "all" ? "active" : ""}`}
                   >
                     All Products
                   </Link>
                 </li>
                 {categories.map((c) => (
-                  <li key={c.id} className="mb-1">
+                  <li key={c.id}>
                     <Link
                       href={`/products/${c.slug}`}
-                      className={`text-decoration-none small ${
-                        categorySlug === c.slug ? "text-primary fw-bold" : "text-dark"
-                      }`}
+                      className={`category-link ${categorySlug === c.slug ? "active" : ""}`}
                     >
                       {c.name}
                     </Link>
@@ -176,9 +353,9 @@ export default function ProductsPage() {
         {/* Products */}
         <div className="col-lg-10">
           {/* Header */}
-          <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
+          <div className="d-flex flex-wrap justify-content-between align-items-start align-items-md-center mb-5 gap-3">
             <div>
-              <h1 className="h4 fw-bold mb-0">
+              <h1 className="page-title mb-0">
                 {categorySlug === "all"
                   ? search
                     ? `Search: "${search}"`
@@ -186,12 +363,15 @@ export default function ProductsPage() {
                   : categories.find((c) => c.slug === categorySlug)?.name || "Products"}
               </h1>
               {!loading && (
-                <p className="text-muted small mb-0">{pagination.total} products</p>
+                <p className="page-count small mb-0">
+                  <i className="bi bi-bag-check me-2"></i>
+                  {pagination.total} {pagination.total === 1 ? "product" : "products"}
+                </p>
               )}
             </div>
             <select
               className="form-select form-select-sm"
-              style={{ width: "auto" }}
+              style={{ width: "180px" }}
               value={sort}
               onChange={(e) => updateSort(e.target.value)}
             >
@@ -206,23 +386,36 @@ export default function ProductsPage() {
             <div className="row g-3">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="col-6 col-md-4 col-lg-3">
-                  <div className="skeleton" style={{ height: 280, borderRadius: 8 }} />
-                  <div className="skeleton mt-2" style={{ height: 16, width: "70%" }} />
-                  <div className="skeleton mt-1" style={{ height: 16, width: "40%" }} />
+                  <div className="skeleton" style={{ height: 280, borderRadius: 12 }} />
+                  <div className="skeleton mt-3" style={{ height: 16, width: "70%" }} />
+                  <div className="skeleton mt-2" style={{ height: 16, width: "40%" }} />
                 </div>
               ))}
             </div>
           ) : products.length === 0 ? (
-            <div className="text-center py-5">
-              <i className="bi bi-bag-x fs-1 text-muted" />
-              <h5 className="mt-3 text-muted">No products found</h5>
-              <Link href="/products/all" className="btn btn-primary mt-3">
+            <div className="text-center py-5" style={{
+              background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
+              borderRadius: "12px",
+              border: "1px solid rgba(159, 82, 58, 0.1)",
+              padding: "60px 20px"
+            }}>
+              <i className="bi bi-bag-x" style={{ fontSize: "3rem", color: "#9f523a" }} />
+              <h5 className="mt-3" style={{ color: "#666", fontWeight: 600 }}>No products found</h5>
+              <p style={{ color: "#999", fontSize: "0.95rem" }}>Try adjusting your filters or search terms</p>
+              <Link href="/products/all" className="btn btn-primary mt-3" style={{
+                background: "linear-gradient(135deg, #9f523a, #7a3f2c)",
+                border: "none",
+                padding: "10px 24px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.5px"
+              }}>
                 Browse All Products
               </Link>
             </div>
           ) : (
             <>
-              <div className="row g-3">
+              <div className="row g-4">
                 {products.map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}
@@ -230,7 +423,7 @@ export default function ProductsPage() {
 
               {/* Pagination */}
               {pagination.pages > 1 && (
-                <nav className="mt-5">
+                <nav className="mt-5 pt-4 border-top border-secondary-subtle">
                   <ul className="pagination justify-content-center">
                     <li className={`page-item ${page <= 1 ? "disabled" : ""}`}>
                       <button
@@ -240,8 +433,9 @@ export default function ProductsPage() {
                           sp.set("page", String(page - 1));
                           router.push(`?${sp}`);
                         }}
+                        style={{ fontWeight: 600 }}
                       >
-                        &laquo;
+                        <i className="bi bi-chevron-left me-1"></i>Previous
                       </button>
                     </li>
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((p) => (
@@ -253,6 +447,7 @@ export default function ProductsPage() {
                             sp.set("page", String(p));
                             router.push(`?${sp}`);
                           }}
+                          style={{ fontWeight: page === p ? 700 : 500 }}
                         >
                           {p}
                         </button>
@@ -266,8 +461,9 @@ export default function ProductsPage() {
                           sp.set("page", String(page + 1));
                           router.push(`?${sp}`);
                         }}
+                        style={{ fontWeight: 600 }}
                       >
-                        &raquo;
+                        Next<i className="bi bi-chevron-right ms-1"></i>
                       </button>
                     </li>
                   </ul>

@@ -53,69 +53,130 @@ export default function FaqPage() {
   ];
 
   return (
-    <div className="container py-5">
-      <div className="text-center mb-5">
-        <h1 className="fw-bold">Frequently Asked Questions</h1>
-        <p className="text-muted">Can't find what you're looking for? Contact our support team.</p>
-      </div>
-
-      {/* Category tabs */}
-      <div className="d-flex flex-wrap justify-content-center gap-2 mb-5">
-        {allCategories.map((cat) => (
-          <button
-            key={cat}
-            className={`btn btn-sm ${
-              activeCategory === cat ? "btn-primary" : "btn-outline-secondary"
-            } text-capitalize`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {loading ? (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" />
-        </div>
-      ) : (
-        <div className="row justify-content-center">
-          <div className="col-lg-8">
-            <div className="accordion" id="faqAccordion">
-              {displayFaqs.map((faq, idx) => (
-                <div key={faq.id} className="accordion-item border-0 mb-2 shadow-sm rounded">
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button collapsed fw-semibold rounded"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#faq-${faq.id}`}
-                    >
-                      {faq.question}
-                    </button>
-                  </h2>
-                  <div id={`faq-${faq.id}`} className="accordion-collapse collapse">
-                    <div className="accordion-body text-muted">{faq.answer}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {displayFaqs.length === 0 && (
-              <p className="text-center text-muted">No FAQs in this category.</p>
-            )}
+    <div className="bg-light py-5">
+      <div className="container">
+        {/* Header */}
+        <div className="row mb-5">
+          <div className="col-lg-8 mx-auto text-center">
+            <h1 className="display-5 fw-bold mb-3">Frequently Asked Questions</h1>
+            <p className="lead text-muted">Everything you need to know about our products, orders, and services</p>
           </div>
         </div>
-      )}
 
-      {/* Contact CTA */}
-      <div className="text-center mt-5 p-5 bg-light rounded-3">
-        <h4 className="fw-bold mb-2">Still have questions?</h4>
-        <p className="text-muted mb-4">Our support team is here to help you.</p>
-        <a href="mailto:support@dstore.in" className="btn btn-primary px-5">
-          <i className="bi bi-envelope me-2" />Email Support
-        </a>
+        {/* Category Tabs */}
+        <div className="row mb-4">
+          <div className="col-12">
+            <div className="d-flex flex-wrap justify-content-center gap-2">
+              {allCategories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`btn ${
+                    activeCategory === cat
+                      ? "btn-primary"
+                      : "btn-outline-primary"
+                  }`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat === "all" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="row">
+            <div className="col-lg-8 mx-auto text-center py-5">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        ) : displayFaqs.length > 0 ? (
+          <div className="row">
+            <div className="col-lg-8 mx-auto">
+              <div className="accordion" id="faqAccordion">
+                {displayFaqs.map((faq, idx) => (
+                  <div key={faq.id} className="accordion-item">
+                    <h2 className="accordion-header">
+                      <button
+                        className="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#faq-${faq.id}`}
+                        aria-expanded="false"
+                        aria-controls={`faq-${faq.id}`}
+                      >
+                        {faq.question}
+                      </button>
+                    </h2>
+                    <div
+                      id={`faq-${faq.id}`}
+                      className="accordion-collapse collapse"
+                      data-bs-parent="#faqAccordion"
+                    >
+                      <div className="accordion-body">{faq.answer}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="row">
+            <div className="col-lg-8 mx-auto text-center py-5">
+              <h5 className="text-muted">No FAQs found in this category</h5>
+            </div>
+          </div>
+        )}
+
+        {/* Contact CTA */}
+        <div className="row mt-5">
+          <div className="col-lg-8 mx-auto">
+            <div className="card border-0 bg-primary text-white">
+              <div className="card-body text-center p-5">
+                <h4 className="card-title fw-bold mb-2">Still can't find the answer?</h4>
+                <p className="card-text mb-4">Our support team is ready to help you</p>
+                <a href="mailto:support@saaviya.in" className="btn btn-light">
+                  <i className="bi bi-envelope me-2"></i>Contact Support
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        .btn-primary {
+          background-color: #9f523a;
+          border-color: #9f523a;
+        }
+        .btn-primary:hover {
+          background-color: #7a3f2c;
+          border-color: #7a3f2c;
+        }
+        .btn-outline-primary {
+          color: #9f523a;
+          border-color: #9f523a;
+        }
+        .btn-outline-primary:hover {
+          background-color: #9f523a;
+          border-color: #9f523a;
+          color: white;
+        }
+        .accordion-button:not(.collapsed) {
+          background-color: #f8f9fa;
+          color: #9f523a;
+          box-shadow: none;
+        }
+        .accordion-button:focus {
+          border-color: #9f523a;
+          box-shadow: 0 0 0 0.25rem rgba(159, 82, 58, 0.25);
+        }
+        .bg-primary {
+          background-color: #9f523a !important;
+        }
+      `}</style>
     </div>
   );
 }

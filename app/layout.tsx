@@ -3,11 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "dstore.in – Women's Fashion Store",
-    template: "%s | dstore.in",
+    default: "Saaviya – Women's Fashion Store",
+    template: "%s | Saaviya",
   },
   description:
-    "Shop the latest women's fashion at dstore.in. Dresses, tops, kurtas and more with free delivery above ₹999.",
+    "Shop the latest women's fashion at Saaviya. Dresses, tops, kurtas and more with free delivery above ₹999.",
   keywords: ["women's clothing", "Indian fashion", "online shopping", "dstore"],
   openGraph: {
     siteName: "dstore.in",
