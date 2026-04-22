@@ -38,4 +38,4 @@ NEXT_PUBLIC_WHATSAPP_NUMBER="919876543210"
 MAINTENANCE_MODE="false"
 
 # Admin notification email — contact form submissions are sent here
-ADMIN_EMAIL="admin@saaviya.in."
+ADMIN_EMAIL="admin@saaviya.in.."
