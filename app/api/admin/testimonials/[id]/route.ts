@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { saveFile } from "@/lib/upload";
@@ -18,7 +18,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const avatarFile = formData.get("avatar") as File | null;
 
     const existing = await prisma.testimonial.findUnique({ where: { id } });
-    if (!existing) return NextResponse.json(errorResponse("Not found"), { status: 404 });
+    if (!existing) return errorResponse("Not found", 404);
 
     let avatar = existing.avatar;
     if (avatarFile && avatarFile.size > 0) {
@@ -29,12 +29,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       where: { id },
       data: { name, location, review, rating, sortOrder, isActive, avatar },
     });
-    return NextResponse.json(successResponse(t));
+    return successResponse(t);
   } catch (err: unknown) {
     if (err instanceof Error && (err.message === "Unauthorized" || err.message === "Forbidden")) {
-      return NextResponse.json(errorResponse(err.message), { status: 403 });
+      return errorResponse(err.message, 403);
     }
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    return errorResponse("Internal server error", 500);
   }
 }
 
@@ -43,11 +43,11 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await requireAdmin();
     const { id } = await params;
     await prisma.testimonial.delete({ where: { id } });
-    return NextResponse.json(successResponse(null));
+    return successResponse(null);
   } catch (err: unknown) {
     if (err instanceof Error && (err.message === "Unauthorized" || err.message === "Forbidden")) {
-      return NextResponse.json(errorResponse(err.message), { status: 403 });
+      return errorResponse(err.message, 403);
     }
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    return errorResponse("Internal server error", 500);
   }
 }

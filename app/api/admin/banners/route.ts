@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { saveFile } from "@/lib/upload";
@@ -8,12 +8,12 @@ export async function GET() {
   try {
     await requireAdmin();
     const banners = await prisma.banner.findMany({ orderBy: { sortOrder: "asc" } });
-    return NextResponse.json(successResponse(banners));
+    return successResponse(banners);
   } catch (err: unknown) {
     if (err instanceof Error && (err.message === "Unauthorized" || err.message === "Forbidden")) {
-      return NextResponse.json(errorResponse(err.message), { status: 403 });
+      return errorResponse(err.message, 403);
     }
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    return errorResponse("Internal server error", 500);
   }
 }
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const isActive = formData.get("isActive") === "true";
     const imageFile = formData.get("image") as File | null;
 
-    if (!title) return NextResponse.json(errorResponse("Title is required"), { status: 400 });
+    if (!title) return errorResponse("Title is required", 400);
 
     let image = "/placeholder-banner.jpg";
     if (imageFile && imageFile.size > 0) {
@@ -38,11 +38,11 @@ export async function POST(req: NextRequest) {
     const banner = await prisma.banner.create({
       data: { title, image, link, position, sortOrder, isActive },
     });
-    return NextResponse.json(successResponse(banner), { status: 201 });
+    return successResponse(banner, 201);
   } catch (err: unknown) {
     if (err instanceof Error && (err.message === "Unauthorized" || err.message === "Forbidden")) {
-      return NextResponse.json(errorResponse(err.message), { status: 403 });
+      return errorResponse(err.message, 403);
     }
-    return NextResponse.json(errorResponse("Internal server error"), { status: 500 });
+    return errorResponse("Internal server error", 500);
   }
 }

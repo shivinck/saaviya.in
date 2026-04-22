@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     // Calculate totals
     const subtotal = cartItems.reduce(
-      (sum: number, item: { product: { price: any; }; quantity: number; }) => sum + Number(item.product.price) * item.quantity,
+      (sum, item) => sum + Number(item.product.price) * item.quantity,
       0
     );
     const shippingCharge = subtotal >= 999 ? 0 : 99;
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
         total,
         paymentScreenshot: screenshotUrl,
         items: {
-          create: cartItems.map((item: { productId: any; product: { name: any; images: any[]; price: any; }; size: any; quantity: any; }) => ({
+          create: cartItems.map((item) => ({
             productId: item.productId,
             name: item.product.name,
             image: item.product.images[0] || null,
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     if (fullUser) {
       sendEmail({
         to: fullUser.email,
-        subject: `Order #${order.orderNumber} received - dstore.in`,
+        subject: `Order #${order.orderNumber} received - saaviya.in`,
         html: orderConfirmationTemplate(
           fullUser.name,
           order.orderNumber,

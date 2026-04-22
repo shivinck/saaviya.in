@@ -38,7 +38,14 @@ interface Blog {
   slug: string;
   excerpt?: string;
   image?: string;
+  author: string;
+  tags: string[];
   publishedAt?: string;
+}
+
+function formatBlogDate(d?: string) {
+  if (!d) return "";
+  return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
 // ─── Skeleton ────────────────────────────────────────
@@ -102,79 +109,6 @@ function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
       </Link>
-    </div>
-  );
-}
-
-// ─── Hero Slider ─────────────────────────────────────
-function HeroSlider({ slides }: { slides: Slide[] }) {
-  if (!slides.length) {
-    return (
-      <div
-        className="hero-slide d-flex align-items-center justify-content-center"
-        style={{ background: "linear-gradient(135deg,#e91e63 0%,#c2185b 100%)" }}
-      >
-        <div className="text-center text-white">
-          <h1 className="display-4 fw-bold">New Season Collection</h1>
-          <p className="lead">Shop the latest trends in women's fashion</p>
-          <Link href="/products/all" className="btn btn-light btn-lg mt-3 px-4">
-            Shop Now
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      id="heroCarousel"
-      className="carousel slide"
-      data-bs-ride="carousel"
-      data-bs-interval="4000"
-    >
-      <div className="carousel-indicators">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            data-bs-target="#heroCarousel"
-            data-bs-slide-to={i}
-            className={i === 0 ? "active" : ""}
-          />
-        ))}
-      </div>
-      <div className="carousel-inner">
-        {slides.map((slide, i) => (
-          <div key={slide.id} className={`carousel-item ${i === 0 ? "active" : ""}`}>
-            <div
-              className="hero-slide d-flex align-items-center"
-              style={{
-                backgroundImage: `url(${slide.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div className="container">
-                <div className="col-md-6 text-white">
-                  <h1 className="display-5 fw-bold">{slide.title}</h1>
-                  {slide.subtitle && <p className="lead">{slide.subtitle}</p>}
-                  {slide.link && (
-                    <Link href={slide.link} className="btn btn-light btn-lg mt-3 px-4">
-                      Explore
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span className="carousel-control-prev-icon" />
-      </button>
-      <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span className="carousel-control-next-icon" />
-      </button>
     </div>
   );
 }
@@ -453,7 +387,7 @@ export default function HomePage() {
                   New Season Collection
                 </h1>
                 <p className="lead" style={{ fontSize: "1.2rem", marginBottom: "2rem", opacity: 0.9 }}>
-                  Shop the latest trends in women's fashion
+                  Shop the latest trends in women&apos;s fashion
                 </p>
                 <Link href="/products/all" className="btn btn-light btn-lg mt-3 px-5" style={{ fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px" }}>
                   Shop Now
@@ -667,43 +601,117 @@ export default function HomePage() {
 
       {/* Blog Preview */}
       {blogs.length > 0 && (
-        <section className="py-5 bg-light">
+        <section style={{ background: "#faf9f7", padding: "60px 0" }}>
           <div className="container">
             <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="section-title mb-0">From Our Blog</h2>
-              <Link href="/stories" className="btn btn-outline-primary btn-sm px-4">
-                All Posts
-              </Link>
+              <div>
+                <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#9f523a", margin: "0 0 6px" }}>Journal</p>
+                <h2 className="section-title mb-0">Our Stories</h2>
+              </div>
+              <Link href="/stories" className="btn btn-outline-primary btn-sm px-4">All Stories</Link>
             </div>
             <div className="row g-4">
               {blogs.map((b) => (
-                <div key={b.id} className="col-md-4">
-                  <Link href={`/stories/${b.slug}`} className="text-decoration-none text-dark">
-                    <div className="blog-card h-100">
-                      {b.image ? (
-                        <Image
-                          src={b.image}
-                          alt={b.title}
-                          width={400}
-                          height={220}
-                          className="card-img-top"
-                          style={{ objectFit: "cover", height: 220 }}
-                        />
-                      ) : (
-                        <div
-                          className="card-img-top d-flex align-items-center justify-content-center"
-                          style={{ height: 220, background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)" }}
-                        >
-                          <i className="bi bi-image text-muted fs-1" />
-                        </div>
-                      )}
-                      <div className="card-body">
-                        <h6 className="fw-bold">{b.title}</h6>
-                        {b.excerpt && (
-                          <p className="text-muted small mb-0 text-truncate">{b.excerpt}</p>
+                <div key={b.id} className="col-sm-6 col-lg-4">
+                  <Link href={`/stories/${b.slug}`} className="text-decoration-none d-block h-100" style={{ color: "inherit" }}>
+                    <article
+                      style={{
+                        background: "#fff",
+                        borderRadius: 12,
+                        overflow: "hidden",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        border: "1px solid #ece9e4",
+                        transition: "box-shadow 0.25s, transform 0.25s",
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 36px rgba(0,0,0,0.10)";
+                        (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                        (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                      }}
+                    >
+                      {/* Image */}
+                      <div style={{ position: "relative", height: 220, overflow: "hidden", flexShrink: 0 }}>
+                        {b.image ? (
+                          <Image
+                            src={b.image}
+                            alt={b.title}
+                            fill
+                            sizes="(max-width:576px) 100vw, 33vw"
+                            style={{ objectFit: "cover", transition: "transform 0.4s ease" }}
+                            onMouseEnter={e => ((e.target as HTMLElement).style.transform = "scale(1.04)")}
+                            onMouseLeave={e => ((e.target as HTMLElement).style.transform = "scale(1)")}
+                          />
+                        ) : (
+                          <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #e8ddd7, #c9b4a8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <span style={{ fontSize: "2rem", opacity: 0.4 }}>&#10022;</span>
+                          </div>
+                        )}
+                        {b.tags && b.tags.length > 0 && (
+                          <div style={{ position: "absolute", top: 14, left: 14, display: "flex", gap: 6 }}>
+                            {b.tags.slice(0, 2).map((t) => (
+                              <span key={t} style={{
+                                background: "rgba(255,255,255,0.92)",
+                                color: "#9f523a",
+                                fontSize: "0.68rem",
+                                fontWeight: 700,
+                                letterSpacing: "0.1em",
+                                textTransform: "uppercase",
+                                padding: "4px 10px",
+                                borderRadius: 4,
+                              }}>{t}</span>
+                            ))}
+                          </div>
                         )}
                       </div>
-                    </div>
+                      {/* Body */}
+                      <div style={{ padding: "20px 22px 16px", display: "flex", flexDirection: "column", flex: 1 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                          <div style={{
+                            width: 28, height: 28, borderRadius: "50%",
+                            background: "linear-gradient(135deg, #9f523a, #7a3f2c)",
+                            color: "#fff",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontSize: "0.75rem", fontWeight: 700, flexShrink: 0,
+                          }}>
+                            {b.author ? b.author[0].toUpperCase() : "S"}
+                          </div>
+                          <span style={{ fontSize: "0.8rem", color: "#888", fontWeight: 500 }}>{b.author}</span>
+                          {b.publishedAt && (
+                            <>
+                              <span style={{ color: "#ddd", fontSize: "0.75rem" }}>&middot;</span>
+                              <span style={{ fontSize: "0.78rem", color: "#aaa" }}>{formatBlogDate(b.publishedAt)}</span>
+                            </>
+                          )}
+                        </div>
+                        <h2 style={{ fontSize: "1.05rem", fontWeight: 700, color: "#111", lineHeight: 1.35, marginBottom: 10, letterSpacing: "-0.01em" }}>
+                          {b.title}
+                        </h2>
+                        {b.excerpt && (
+                          <p style={{
+                            fontSize: "0.875rem", color: "#666", lineHeight: 1.65, flex: 1,
+                            margin: "0 0 18px",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                          }}>{b.excerpt}</p>
+                        )}
+                        <span style={{
+                          fontSize: "0.82rem", fontWeight: 700, color: "#9f523a",
+                          letterSpacing: "0.04em", display: "inline-flex", alignItems: "center", gap: 5,
+                        }}>
+                          Read Story
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 8h10M9 4l4 4-4 4" />
+                          </svg>
+                        </span>
+                      </div>
+                    </article>
                   </Link>
                 </div>
               ))}
@@ -711,6 +719,32 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+            <section style={{ background: "#0d0d0d", padding: "80px 20px", textAlign: "center" }}>
+              <div className="container" style={{ maxWidth: 560 }}>
+                <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#9f523a", marginBottom: 16 }}>Join Us</p>
+                <h2 style={{ fontSize: "clamp(1.6rem,3vw,2.4rem)", fontWeight: 700, color: "#fff", lineHeight: 1.2, letterSpacing: "-0.02em", marginBottom: 16 }}>
+                  Become part of the Saaviya community.
+                </h2>
+                <p style={{ fontSize: "1rem", color: "#777", marginBottom: 36, lineHeight: 1.7 }}>
+                  Thousands of women across India trust Saaviya for their most important moments. We&apos;d love to be part of yours.
+                </p>
+                <Link href="/products/all" style={{
+                  display: "inline-block",
+                  background: "#9f523a",
+                  color: "#fff",
+                  padding: "14px 44px",
+                  borderRadius: 8,
+                  fontWeight: 700,
+                  fontSize: "0.9rem",
+                  textDecoration: "none",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                }}>
+                  Explore Collection
+                </Link>
+              </div>
+            </section>
     </>
   );
 }
