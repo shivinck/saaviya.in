@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const avatarFile = formData.get("avatar") as File | null;
 
     if (!name || !review) {
-      return NextResponse.json(errorResponse("Name and review are required"), { status: 400 });
+      return Response.json(errorResponse("Name and review are required"), { status: 400 });
     }
 
     let avatar: string | null = null;
